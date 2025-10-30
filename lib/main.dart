@@ -1,25 +1,20 @@
-import 'package:flutter/material.dart' ;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/bloc_bloc.dart';
 
 void main() {
   runApp(
-      BlocProvider(create:
-      (context) => AppBloc(),
-      child:
-      BlocBuilder <AppBloc, AppState>
-        (
-        builder: (context, state) {
-        return const MyApp();
-      },)
-      ),
+    BlocProvider(
+      create: (context) => AppBloc(),
+      child: MyApp(),
+    ),
   );
-
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final TextEditingController num1Controller = TextEditingController();
+  final TextEditingController num2Controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,10 +28,29 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TextField( decoration: InputDecoration(hintText: "num1"),),
-              const TextField(decoration: InputDecoration(hintText: "num2"),),
-              const Text("sum 0"),
-              ElevatedButton(onPressed: () {}, child: const Text("Calculate")),
+              TextField(
+                controller: num1Controller,
+                decoration: InputDecoration(hintText: "num1"),
+              ),
+              TextField(
+                controller: num2Controller,
+                decoration: InputDecoration(hintText: "num2"),
+              ),
+              BlocBuilder<AppBloc, AppState>(
+                builder: (context, state) {
+                  if (state is Calculated) {
+                    return Text("Sum is: ${state.sum}");
+                  }
+                  return const Text("Sum is: 0");
+                },
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<AppBloc>().add(CalculateEvent(
+                        int.parse(num1Controller.text),
+                        int.parse(num2Controller.text)));
+                  },
+                  child: const Text("Calculate")),
             ],
           ),
         ),

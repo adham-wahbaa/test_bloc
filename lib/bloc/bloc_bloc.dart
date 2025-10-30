@@ -8,6 +8,7 @@ class AppBloc extends Bloc<Event, AppState> {
   AppBloc() : super(Initial()) {
     on<CalculateEvent>((event, emit) {
       final sum = event.num1 + event.num2;
+      print("Sum is $sum");
       emit(Calculated(sum));
     });
   }
