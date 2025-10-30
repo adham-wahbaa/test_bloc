@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: const Text('Flutter Demo Home Page')),
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const TextField( decoration: InputDecoration(hintText: "num1"),),
               const TextField(decoration: InputDecoration(hintText: "num2"),),
